@@ -1,0 +1,3 @@
+[submodule "dungen"]
+	path = dungen
+	url = https://github.com/glouw/dungen
