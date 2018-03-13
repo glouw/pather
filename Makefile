@@ -4,9 +4,6 @@ NAME = pather
 
 SRCS = main.c
 
-LIB = dungen
-OBJ = $(LIB)/Map.o
-
 # CompSpec defined in windows environment.
 ifdef ComSpec
 	BIN = $(NAME).exe
@@ -15,13 +12,22 @@ else
 endif
 
 CFLAGS =
+ifdef ComSpec
+	CFLAGS += -I ../SDL2-2.0.7/i686-w64-mingw32/include
+	CFLAGS += -I ../SDL2-2.0.7/i686-w64-mingw32/include/SDL2
+endif
 CFLAGS += -std=c99
 CFLAGS += -Wshadow -Wall -Wpedantic -Wextra -Wdouble-promotion
 CFLAGS += -g
 CFLAGS += -Ofast -march=native
 
 LDFLAGS =
-LDFLAGS += -lm
+ifdef ComSpec
+	LDFLAGS += -L..\SDL2-2.0.7\i686-w64-mingw32\lib
+	LDFLAGS += -lmingw32
+	LDFLAGS += -lSDL2main
+endif
+LDFLAGS += -lSDL2 -lm
 
 ifdef ComSpec
 	RM = del /F /Q
@@ -33,10 +39,7 @@ endif
 
 # Link.
 $(BIN): $(SRCS:.c=.o)
-	# Compile dep libs
-	make -C $(LIB)
-	# Link final exe with dep lib
-	$(CC) $(CFLAGS) $(SRCS:.c=.o) $(OBJ) $(LDFLAGS) -o $(BIN)
+	$(CC) $(CFLAGS) $(SRCS:.c=.o) $(LDFLAGS) -o $(BIN)
 
 # Compile.
 %.o : %.c Makefile
@@ -47,12 +50,9 @@ $(BIN): $(SRCS:.c=.o)
 -include *.d
 
 clean:
-	# Clean local
 	$(RM) vgcore.*
 	$(RM) cachegrind.out.*
 	$(RM) callgrind.out.*
 	$(RM) $(BIN)
 	$(RM) $(SRCS:.c=.o)
 	$(RM) $(SRCS:.c=.d)
-	# Clean libs
-	make clean -C $(LIB)
