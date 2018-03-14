@@ -406,18 +406,6 @@ static Sprites append(Sprites sprites, const Sprite sprite)
     return sprites;
 }
 
-static int blok(const Point a, const char** const blocks)
-{
-    const int y = a.y;
-    const int x = a.x;
-    return blocks[y][x];
-}
-
-static int tile(const Point a, const char** const blocks)
-{
-    return blok(a, blocks) - ' ';
-}
-
 static void place(Sprite* const sprite, const Point to)
 {
     sprite->last = sprite->where;
@@ -443,7 +431,9 @@ static void bound(const Sprites sprites, const Map map)
     {
         Sprite* const sprite = &sprites.sprite[i];
         // Stuck in a wall.
-        if(tile(sprite->where, map.walling))
+        const int y = sprite->where.y;
+        const int x = sprite->where.x;
+        if(map.walling[y][x] != ' ')
         {
             place(sprite, mid(sprite->last));
             zero(sprite->velocity);
