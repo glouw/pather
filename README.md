@@ -1,6 +1,4 @@
-# pather
-
-Pather is a collaborative diffusion path finder.
+Collaborative diffusion path finding.
 
 Time complexity dependent on map size and not the number of sprites (unlike A*).
 
