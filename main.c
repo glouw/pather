@@ -531,8 +531,10 @@ static Point mouse(const int res)
     return where;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void) argc;
+    (void) argv;
     const Map map = build();
     const Field field = prepare(map, 10);
     const Sdl sdl = init(field.cols, field.rows);
@@ -549,4 +551,5 @@ int main()
         const int ms = 1000.0f / 60.0f - (t1 - t0);
         SDL_Delay(ms < 0 ? 0 : ms);
     }
+    return 0;
 }

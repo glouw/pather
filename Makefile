@@ -13,8 +13,7 @@ endif
 
 CFLAGS =
 ifdef ComSpec
-	CFLAGS += -I ../SDL2-2.0.7/i686-w64-mingw32/include
-	CFLAGS += -I ../SDL2-2.0.7/i686-w64-mingw32/include/SDL2
+	CFLAGS += -I ..\SDL2-2.0.7\i686-w64-mingw32\include
 endif
 CFLAGS += -std=c99
 CFLAGS += -Wshadow -Wall -Wpedantic -Wextra -Wdouble-promotion

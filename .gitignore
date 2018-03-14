@@ -1,3 +1,5 @@
 *.o
 *.d
 pather
+pather.exe
+SDL2.dll
