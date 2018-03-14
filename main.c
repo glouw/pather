@@ -43,7 +43,7 @@ Field;
 
 typedef struct
 {
-    char** walling;
+    const char** walling;
     int rows;
     int cols;
 }
@@ -111,7 +111,7 @@ static Point unt(const Point a)
 
 static Map build()
 {
-    static char* m[] = {
+    static const char* m[] = {
         "######################################################",
         "#                                                    #",
         "#                                                    #",
@@ -406,14 +406,14 @@ static Sprites append(Sprites sprites, const Sprite sprite)
     return sprites;
 }
 
-static int blok(const Point a, char** const blocks)
+static int blok(const Point a, const char** const blocks)
 {
     const int y = a.y;
     const int x = a.x;
     return blocks[y][x];
 }
 
-static int tile(const Point a, char** const blocks)
+static int tile(const Point a, const char** const blocks)
 {
     return blok(a, blocks) - ' ';
 }
