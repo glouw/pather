@@ -8,4 +8,4 @@ Dependencies:
 
     SDL2-devel
 
-![](img/path.gif)
+![](img/pather.gif)
