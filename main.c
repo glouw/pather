@@ -22,6 +22,14 @@ Point;
 
 typedef struct
 {
+    int y; // Notice y and x are in reverse
+    int x; // here, contrary to the Point type.
+    float val;
+}
+Atom;
+
+typedef struct
+{
     float** mesh;
     int rows;
     int cols;
@@ -32,14 +40,6 @@ typedef struct
     float sscent;
 }
 Field;
-
-typedef struct
-{
-    int y; // Notice y and x are in reverse
-    int x; // here, contrary to the Point type.
-    float val;
-}
-Atom;
 
 typedef struct
 {
@@ -519,22 +519,31 @@ static int done(const uint8_t* key, const SDL_Event e)
     return key[SDL_SCANCODE_ESCAPE] || key[SDL_SCANCODE_END] || e.type == SDL_QUIT;
 }
 
+static Point mouse(const int res)
+{
+    int x;
+    int y;
+    SDL_GetMouseState(&x, &y);
+    const Point where = {
+        (float) x / res,
+        (float) y / res,
+    };
+    return where;
+}
+
 int main()
 {
-    Map map = build();
-    Field field = prepare(map, 10);
-    Sdl sdl = init(field.cols, field.rows);
-    Sprites sprites = create();
+    const Map map = build();
+    const Field field = prepare(map, 10);
+    const Sdl sdl = init(field.cols, field.rows);
+    const Sprites sprites = create();
     SDL_WarpMouseInWindow(sdl.window, field.cols / 2, field.rows / 2);
     SDL_Event e;
     for(const uint8_t* key = SDL_GetKeyboardState(NULL); !done(key, e); SDL_PollEvent(&e))
     {
         const int t0 = SDL_GetTicks();
-        int x;
-        int y;
-        SDL_GetMouseState(&x, &y);
-        Point mouse = { (float) x / field.res , (float) y / field. res };
-        route(field, map, mouse, sprites);
+        const Point cursor = mouse(field.res);
+        route(field, map, cursor, sprites);
         dfield(sdl, field, map, sprites);
         const int t1 = SDL_GetTicks();
         const int ms = 1000.0f / 60.0f - (t1 - t0);
