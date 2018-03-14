@@ -190,8 +190,8 @@ static Field prepare(const Map map, const int aura)
     for(int j = 0; j < field.rows; j++)
         field.mesh[j] = toss(float, field.cols);
     field.hscent = +1e30;
-    field.wscent = -1.0;
-    field.sscent = -5.0;
+    field.wscent = -5.0;
+    field.sscent = -1.0;
     return field;
 }
 
@@ -386,13 +386,12 @@ static Sprites snew(const int max)
     return sprites;
 }
 
-static Sprite born(const float x, const float y)
+static Sprite born(const Point where)
 {
     Sprite s;
     zero(s);
-    s.where.x = x;
-    s.where.y = y;
-    s.last = s.where;
+    s.where = where;
+    s.last = where;
     s.speed = 0.3;
     s.acceleration = 0.02;
     return s;
@@ -496,23 +495,23 @@ static void route(const Field field, const Map map, const Point where, const Spr
 static Sprites create()
 {
     Sprites sprites = snew(10);
-    const Sprite reg[] = {
-        born(2.5, 2.5),
-        born(3.5, 4.5),
-        born(4.5, 2.5),
-        born(7.5, 4.5),
-        born(8.5, 3.5),
-        born(8.5, 3.5),
-        born(24.5, 3.5),
-        born(40.5, 20.5),
-        born(43.5, 22.5),
-        born(42.5, 23.5),
-        born(41.5, 22.5),
-        born(45.5, 23.5),
-        born(43.5, 22.5),
+    const Point wheres[] = {
+        {  2.5f,  2.5f },
+        {  3.5f,  4.5f },
+        {  4.5f,  2.5f },
+        {  7.5f,  4.5f },
+        {  8.5f,  3.5f },
+        {  8.5f,  3.5f },
+        { 24.5f,  3.5f },
+        { 40.5f, 20.5f },
+        { 43.5f, 22.5f },
+        { 42.5f, 23.5f },
+        { 41.5f, 22.5f },
+        { 45.5f, 23.5f },
+        { 43.5f, 22.5f },
     };
-    for(int s = 0; s < len(reg); s++)
-        sprites = append(sprites, reg[s]);
+    for(int s = 0; s < len(wheres); s++)
+        sprites = append(sprites, born(wheres[s]));
     return sprites;
 }
 
