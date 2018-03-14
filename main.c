@@ -111,8 +111,6 @@ Point unt(const Point a)
 
 static Map build()
 {
-    Map map;
-    zero(map);
     static char* m[] = {
         "######################################################",
         "#                                                    #",
@@ -144,6 +142,8 @@ static Map build()
         "#                                                    #",
         "######################################################",
     };
+    Map map;
+    zero(map);
     map.rows = len(m);
     map.cols = strlen(m[0]);
     map.walling = m;
