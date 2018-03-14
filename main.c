@@ -96,7 +96,7 @@ static float mag(const Point a)
     return sqrtf(a.x * a.x + a.y * a.y);
 }
 
-Point mul(const Point a, const float n)
+static Point mul(const Point a, const float n)
 {
     Point out;
     out.x = a.x * n;
@@ -104,7 +104,7 @@ Point mul(const Point a, const float n)
     return out;
 }
 
-Point unt(const Point a)
+static Point unt(const Point a)
 {
     return mul(a, 1.0f / mag(a));
 }
@@ -514,6 +514,11 @@ static Sprites create()
     return sprites;
 }
 
+static int done(const uint8_t* key, const SDL_Event e)
+{
+    return key[SDL_SCANCODE_ESCAPE] || key[SDL_SCANCODE_END] || e.type == SDL_QUIT;
+}
+
 int main()
 {
     Map map = build();
@@ -522,7 +527,7 @@ int main()
     Sprites sprites = create();
     SDL_WarpMouseInWindow(sdl.window, field.cols / 2, field.rows / 2);
     SDL_Event e;
-    for(const uint8_t* key = SDL_GetKeyboardState(NULL); !key[SDL_SCANCODE_ESCAPE] && !key[SDL_SCANCODE_END] && e.type != SDL_QUIT; SDL_PollEvent(&e))
+    for(const uint8_t* key = SDL_GetKeyboardState(NULL); !done(key, e); SDL_PollEvent(&e))
     {
         const int t0 = SDL_GetTicks();
         int x;
