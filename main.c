@@ -354,7 +354,7 @@ static void dfield(const Sdl sdl, const Field field, const Map map, const Sprite
     SDL_RenderPresent(sdl.renderer);
 }
 
-static void check(void* what)
+static void check(const void* const what)
 {
     if(what == NULL)
     {
