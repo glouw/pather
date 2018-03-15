@@ -354,28 +354,37 @@ static void dfield(const Sdl sdl, const Field field, const Map map, const Sprite
     SDL_RenderPresent(sdl.renderer);
 }
 
+static void check(void* what)
+{
+    if(what == NULL)
+    {
+        puts(SDL_GetError());
+        exit(1);
+    }
+}
+
 static Sdl init(const int xres, const int yres)
 {
     SDL_Init(SDL_INIT_VIDEO);
     Sdl sdl;
     zero(sdl);
-    sdl.window = SDL_CreateWindow(
+    check(sdl.window = SDL_CreateWindow(
         "Pather",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         xres,
         yres,
-        SDL_WINDOW_SHOWN);
-    sdl.renderer = SDL_CreateRenderer(
+        SDL_WINDOW_SHOWN));
+    check(sdl.renderer = SDL_CreateRenderer(
         sdl.window,
         -1,
-        SDL_RENDERER_ACCELERATED);
-    sdl.texture = SDL_CreateTexture(
+        SDL_RENDERER_ACCELERATED));
+    check(sdl.texture = SDL_CreateTexture(
         sdl.renderer,
         SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING,
         xres,
-        yres);
+        yres));
     return sdl;
 }
 
