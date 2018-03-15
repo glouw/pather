@@ -504,8 +504,10 @@ static Sprites create()
     return sprites;
 }
 
-static int done(const uint8_t* key, const SDL_Event e)
+static int poll(const uint8_t* key)
 {
+    SDL_Event e;
+    SDL_PollEvent(&e);
     return key[SDL_SCANCODE_ESCAPE] || key[SDL_SCANCODE_END] || e.type == SDL_QUIT;
 }
 
@@ -530,8 +532,7 @@ int main(int argc, char* argv[])
     const Sdl sdl = init(field.cols, field.rows);
     const Sprites sprites = create();
     SDL_WarpMouseInWindow(sdl.window, field.cols / 2, field.rows / 2);
-    SDL_Event e;
-    for(const uint8_t* key = SDL_GetKeyboardState(NULL); !done(key, e); SDL_PollEvent(&e))
+    for(const uint8_t* key = SDL_GetKeyboardState(NULL); !poll(key);)
     {
         const int t0 = SDL_GetTicks();
         const Point cursor = mouse(field.res);
